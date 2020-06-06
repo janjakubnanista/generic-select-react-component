@@ -1,47 +1,39 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import { Select } from './Select/Select';
+import { User, idFromUser, labelFromUser, users } from '../users';
+import styled from 'styled-components';
+import { CheckBoxSelectItem } from './Select/SelectItems';
 
-// This component does not contain any business logic, it is here just to make things a bit prettier.
-// Having said that I didn't write any tests for this component (the only thing to test here
-// would be whether the Calendar gets rendered)
 export const App: React.FC = () => {
+  const [selectedUser, setSelectedUser] = React.useState<User>();
+  const [selectedUsers, setSelectedUsers] = React.useState<User[]>([]);
+
   return (
     <Container>
-      <DefaultStyles />
+      <Select
+        items={users}
+        idFromValue={idFromUser}
+        itemComponent={CheckBoxSelectItem}
+        labelFromValue={labelFromUser}
+        value={selectedUser}
+        onChange={setSelectedUser}
+      />
 
-      <Title>@jannanista/webpack-react-ts-template</Title>
-      <Content>Your webapp here!</Content>
+      <hr />
+
+      <Select
+        multiple
+        items={users}
+        idFromValue={idFromUser}
+        itemComponent={CheckBoxSelectItem}
+        labelFromValue={labelFromUser}
+        value={selectedUsers}
+        onChange={setSelectedUsers}
+      />
     </Container>
   );
 };
 
-// A simple full-screen container component
 const Container = styled.div`
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const Title = styled.h1`
-  font-size: 48px;
-  margin-bottom: 16px;
-  flex: 0;
-`;
-
-const Content = styled.div`
-  flex: 1;
-  position: relative;
-`;
-
-const DefaultStyles = createGlobalStyle`
-  html {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
-
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  padding: 20px;
 `;
